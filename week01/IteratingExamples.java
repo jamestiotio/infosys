@@ -7,7 +7,7 @@ public class IteratingExamples {
     Iterator<Integer> iterator = integers.iterator();
 
     while (iterator.hasNext()) {
-      sum = sum + iterator.next();
+      sum += iterator.next();
     }
 
     return sum;
