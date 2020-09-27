@@ -5,10 +5,10 @@ public class IteratingExamples {
 
   public static int Act2Iterator(List<Integer> integers) {
     int sum = 0;
-    Iterator<Integer> iterator = integers.iterator();
+    Iterator<Integer> iter = integers.iterator();
 
-    while (iterator.hasNext()) {
-      sum += iterator.next();
+    while (iter.hasNext()) {
+      sum += iter.next();
     }
 
     return sum;
@@ -17,8 +17,8 @@ public class IteratingExamples {
   public static int Act2ForEach(List<Integer> integers) {
     int sum = 0;
 
-    for (int i = 0; i < integers.size(); i++) {
-      sum += integers.get(i);
+    for (Integer i: integers) {
+      sum += i;
     }
 
     return sum;

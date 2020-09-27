@@ -54,15 +54,15 @@ public class Account {
   }
 
   public double getMonthlyInterest() {
-    return this.balance * Account.getMonthlyInterestRate() / 100;
+    return this.getBalance() * Account.getMonthlyInterestRate() / 100;
   }
 
   public void withdraw(double withdrawAmount) {
-    this.balance -= withdrawAmount;
+    this.setBalance(this.getBalance() - withdrawAmount);
   }
 
   public void deposit(double depositAmount) {
-    this.balance += depositAmount;
+    this.setBalance(this.getBalance() + depositAmount);
   }
 
 }
