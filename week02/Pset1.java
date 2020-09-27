@@ -30,7 +30,7 @@ public class Pset1 {
       return false;
     }
 
-    int count[] = new int[128];
+    int[] count = new int[128];
     Arrays.fill(count, 0);
     int i;
 
