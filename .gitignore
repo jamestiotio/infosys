@@ -6,6 +6,7 @@
 
 # Compiled class file
 *.class
+!week02/*.class
 
 # Log file
 *.log
