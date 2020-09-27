@@ -1,5 +1,7 @@
 package piwords;
 
+import java.util.Arrays;
+
 public class DigitsToStringConverter {
   /**
    * Given a list of digits, a base, and an mapping of digits of that base to
@@ -18,7 +20,16 @@ public class DigitsToStringConverter {
    */
   public static String convertDigitsToString(int[] digits, int base,
                                               char[] alphabet) {
-      // TODO: Implement (Problem d)
-      return "";
+    if ((Arrays.stream(digits).anyMatch(x -> x < 0)) || (Arrays.stream(digits).anyMatch(x -> x >= base)) || (alphabet.length != base)) {
+      return null;
+    }
+
+    String output = new String();
+
+    for (int i = 0; i < digits.length; i++) {
+      output += Character.toString(alphabet[digits[i]]);
+    }
+
+    return output;
   }
 }

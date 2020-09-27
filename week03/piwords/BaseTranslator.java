@@ -1,5 +1,7 @@
 package piwords;
 
+import java.util.Arrays;
+
 public class BaseTranslator {
   /**
    * Converts an array where the ith digit corresponds to (1 / baseA)^(i + 1)
@@ -16,9 +18,9 @@ public class BaseTranslator {
    * for (i < precisionB) {
    *   1. Keep a carry, initialize to 0.
    *   2. From RIGHT to LEFT
-   *   	a. x = multiply the jth digit by baseB and add the carry
-   *          b. the new jth digit is x % baseA
-   *          c. carry = x / baseA
+   *   	 a. x = multiply the jth digit by baseB and add the carry
+   *     b. the new jth digit is x % baseA
+   *     c. carry = x / baseA
    *   3. output[i] = carry
    * }
    * If digits[j] < 0 or digits[j] >= baseA for any j, return null
@@ -33,7 +35,25 @@ public class BaseTranslator {
    */
   public static int[] convertBase(int[] digits, int baseA,
                                   int baseB, int precisionB) {
-      // TODO: Implement (Problem c)
+    if ((baseA < 2) || (baseB < 2) || (precisionB < 1) || (Arrays.stream(digits).anyMatch(x -> x < 0)) || (Arrays.stream(digits).anyMatch(x -> x >= baseA))) {
       return null;
+    }
+
+    int[] digitsCopy = digits.clone();
+    int[] output = new int[precisionB];
+
+    for (int i = 0; i < precisionB; i++) {
+      int carry = 0;
+
+      for (int j = digitsCopy.length - 1; j >= 0; j--) {
+        int x = digitsCopy[j] * baseB + carry;
+        digitsCopy[j] = x % baseA;
+        carry = x / baseA;
+      }
+
+      output[i] = carry;
+    }
+  
+    return output;
   }
 }
