@@ -34,7 +34,7 @@ public class Main {
       System.out.printf(
               "Digits of Pi in base-26: %s\n\n",
               MaybeTruncateString(Arrays.toString(translatedPiBase26), 50));
-      
+
       System.out.println("Problem 3: Converting Pi using basic alphabet");
       String basicConversion = DigitsToStringConverter.convertDigitsToString(
               translatedPiBase26, 26, BASIC_ALPHABET);
@@ -51,24 +51,24 @@ public class Main {
       }
       System.out.printf("Word coverage using basic alphabet: %f\n\n",
               ((double)basicSubstrings.size()) / WORD_LIST.length);
-      
+
       System.out.println("Problem 5: Getting word matches with base-100 and" +
                                   " frequency dictionary");
       int[] translatedPiBase100 =
               BaseTranslator.convertBase(piHexDigits, 16, 100, PI_PRECISION);
       char[] alphabet = AlphabetGenerator.generateFrequencyAlphabet(
               100, WORD_LIST);
-      
+
       System.out.printf("Frequency dictionary generated: %s\n",
                         MaybeTruncateString(Arrays.toString(alphabet), 50));
-      
+
       String frequencyConversion =
               DigitsToStringConverter.convertDigitsToString(
                       translatedPiBase100, 100, alphabet);
       System.out.printf(
               "Digits of Pi translated into a-z: %s\n",
               MaybeTruncateString(frequencyConversion, 50));
-      
+
       Map<String, Integer> frequencySubstrings =
               WordFinder.getSubstrings(frequencyConversion, WORD_LIST);
       for (Map.Entry<String, Integer> entry :
@@ -78,9 +78,9 @@ public class Main {
       }
       System.out.printf("Word coverage using frequency alphabet: %f\n\n",
               ((double)frequencySubstrings.size()) / WORD_LIST.length);
-      
+
   }
-  
+
   /**
    * If the input is less than or equal to len letters long, return it
    * unchanged. If the input is greater than len letters long, trim it to

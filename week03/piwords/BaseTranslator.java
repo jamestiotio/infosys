@@ -35,6 +35,7 @@ public class BaseTranslator {
    */
   public static int[] convertBase(int[] digits, int baseA,
                                   int baseB, int precisionB) {
+    // Group all the checks in a one-liner for convenience
     if ((baseA < 2) || (baseB < 2) || (precisionB < 1) || (Arrays.stream(digits).anyMatch(x -> x < 0)) || (Arrays.stream(digits).anyMatch(x -> x >= baseA))) {
       return null;
     }

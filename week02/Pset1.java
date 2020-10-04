@@ -2,13 +2,15 @@ import java.util.Arrays;
 
 public class Pset1 {
 
+  private static final int ASCII_CHARS_COUNT = 128;
+
   // Using boolean array costs us a time complexity of O(n)
   public static boolean isAllCharacterUnique(String sIn) {
-    if (sIn.length() > 128) {
+    if (sIn.length() > ASCII_CHARS_COUNT) {
       return false;
     }
 
-    boolean[] chars = new boolean[128];
+    boolean[] chars = new boolean[ASCII_CHARS_COUNT];
     Arrays.fill(chars, false);
 
     for (int i = 0; i < sIn.length(); i++) {
@@ -30,7 +32,7 @@ public class Pset1 {
       return false;
     }
 
-    int[] count = new int[128];
+    int[] count = new int[ASCII_CHARS_COUNT];
     Arrays.fill(count, 0);
     int i;
 
@@ -39,7 +41,7 @@ public class Pset1 {
       count[(int)sIn2.charAt(i)]--;
     }
 
-    for (i = 0; i < 128; i++) {
+    for (i = 0; i < ASCII_CHARS_COUNT; i++) {
       if (count[i] != 0) {
         return false;
       }

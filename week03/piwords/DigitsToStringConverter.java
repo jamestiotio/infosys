@@ -1,7 +1,5 @@
 package piwords;
 
-import java.util.Arrays;
-
 public class DigitsToStringConverter {
   /**
    * Given a list of digits, a base, and an mapping of digits of that base to
@@ -20,8 +18,15 @@ public class DigitsToStringConverter {
    */
   public static String convertDigitsToString(int[] digits, int base,
                                               char[] alphabet) {
-    if ((Arrays.stream(digits).anyMatch(x -> x < 0)) || (Arrays.stream(digits).anyMatch(x -> x >= base)) || (alphabet.length != base)) {
+    if (alphabet.length != base) {
       return null;
+    }
+
+    // For-each loop implementation for these kind of checks is actually faster than Arrays.stream().anyMatch()
+    for (int i: digits) {
+      if ((i < 0) || (i >= base)) {
+        return null;
+      }
     }
 
     String output = new String();

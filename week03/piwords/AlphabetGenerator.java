@@ -1,5 +1,9 @@
 package piwords;
 
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.LongAdder;
+
 public class AlphabetGenerator {
   /**
    * Given a numeric base, return a char[] that maps every digit that is
@@ -52,7 +56,58 @@ public class AlphabetGenerator {
    */
   public static char[] generateFrequencyAlphabet(int base,
                                                   String[] trainingData) {
-      // TODO: Implement (Problem f)
-      return null;
+    if (base < 0) return null;
+
+    if (base == 0) {
+      char[] output = {};
+      return output;
+    }
+
+    char[] output = new char[base];
+
+    TreeMap<Character, Integer> charMap = new TreeMap<>();
+
+    for (int i = 0; i < trainingData.length; i++) {
+      String s = trainingData[i];
+
+      for (int j = 0; j < s.length(); j++) {
+        char c = s.charAt(j);
+
+        if ((c >= 'a') && (c <= 'z')) {
+          if (charMap.containsKey(c)) {
+            charMap.put(c, charMap.get(c) + 1);
+          }
+          
+          else {
+            charMap.put(c, 1);
+          }
+        }
+      }
+    }
+
+    LongAdder sum = new LongAdder();
+    charMap.values().parallelStream().forEach(sum::add);
+    int totalNumOfChars = sum.intValue();
+
+    TreeMap<Character, Double> cdf = new TreeMap<>();
+
+    double r = 0;
+
+    for (Map.Entry<Character, Integer> entry: charMap.entrySet()) {
+      double pdf = (double) entry.getValue() / totalNumOfChars;
+      r += pdf;
+      cdf.put(entry.getKey(), r);
+    }
+
+    int j = 0;
+
+    for (Map.Entry<Character, Double> entry: cdf.entrySet()) {
+      while ((j < base) && ((entry.getValue() * base) - j > 0.0001)) {
+        output[j] = entry.getKey();
+        j++;
+      }
+    }
+
+    return output;
   }
 }
