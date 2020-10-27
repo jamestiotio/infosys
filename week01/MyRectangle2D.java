@@ -61,15 +61,22 @@ public class MyRectangle2D {
   }
 
   public boolean contains(double cX, double cY) {
-    return (((cX > getX() - 0.5*getWidth()) && (cX < getX() + 0.5*getWidth())) && ((cY > getY() - 0.5*getHeight()) && (cY < getY() + 0.5*getHeight())));
+    return (((cX > getX() - 0.5 * getWidth()) && (cX < getX() + 0.5 * getWidth()))
+        && ((cY > getY() - 0.5 * getHeight()) && (cY < getY() + 0.5 * getHeight())));
   }
 
   public boolean contains(MyRectangle2D r) {
-    return ((((r.getX() - 0.5*r.getWidth()) > (getX() - 0.5*getWidth())) && ((r.getX() + 0.5*r.getWidth()) < (getX() + 0.5*getWidth()))) && (((r.getY() - 0.5*r.getHeight()) > (getY() - 0.5*getHeight())) && ((r.getY() + 0.5*r.getHeight()) < (getY() + 0.5*getHeight()))));
+    return ((((r.getX() - 0.5 * r.getWidth()) > (getX() - 0.5 * getWidth()))
+        && ((r.getX() + 0.5 * r.getWidth()) < (getX() + 0.5 * getWidth())))
+        && (((r.getY() - 0.5 * r.getHeight()) > (getY() - 0.5 * getHeight()))
+            && ((r.getY() + 0.5 * r.getHeight()) < (getY() + 0.5 * getHeight()))));
   }
 
   public boolean overlaps(MyRectangle2D r) {
-    return !(((r.getX() - 0.5*r.getWidth()) > (getX() + 0.5*getWidth())) || ((r.getX() + 0.5*r.getWidth()) < (getX() - 0.5*getWidth())) || ((r.getY() - 0.5*r.getHeight()) > (getY() + 0.5*getHeight())) || ((r.getY() + 0.5*r.getHeight()) < (getY() - 0.5*getHeight())));
+    return !(((r.getX() - 0.5 * r.getWidth()) > (getX() + 0.5 * getWidth()))
+        || ((r.getX() + 0.5 * r.getWidth()) < (getX() - 0.5 * getWidth()))
+        || ((r.getY() - 0.5 * r.getHeight()) > (getY() + 0.5 * getHeight()))
+        || ((r.getY() + 0.5 * r.getHeight()) < (getY() - 0.5 * getHeight())));
   }
 
 }

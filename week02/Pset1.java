@@ -14,7 +14,7 @@ public class Pset1 {
     Arrays.fill(chars, false);
 
     for (int i = 0; i < sIn.length(); i++) {
-      int index = (int)sIn.charAt(i);
+      int index = (int) sIn.charAt(i);
 
       if (chars[index]) {
         return false;
@@ -27,8 +27,8 @@ public class Pset1 {
   }
 
   // Using a single count array costs us a time complexity of O(n)
-	public static boolean isPermutation(String sIn1, String sIn2) {
-	  if (sIn1.length() != sIn2.length()) {
+  public static boolean isPermutation(String sIn1, String sIn2) {
+    if (sIn1.length() != sIn2.length()) {
       return false;
     }
 
@@ -37,8 +37,8 @@ public class Pset1 {
     int i;
 
     for (i = 0; i < sIn1.length(); i++) {
-      count[(int)sIn1.charAt(i)]++;
-      count[(int)sIn2.charAt(i)]--;
+      count[(int) sIn1.charAt(i)]++;
+      count[(int) sIn2.charAt(i)]--;
     }
 
     for (i = 0; i < ASCII_CHARS_COUNT; i++) {

@@ -11,8 +11,7 @@ public class Hailstone {
     while (element != 1) {
       if (element % 2 == 0) {
         element /= 2;
-      }
-      else {
+      } else {
         element = (3 * element + 1);
       }
 

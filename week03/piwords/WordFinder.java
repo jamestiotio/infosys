@@ -11,12 +11,12 @@ import java.util.Set;
 
 class Vertex {
   Vertex() {
-    children = new Hashtable<>();            
+    children = new Hashtable<>();
     leaf = false;
     parent = -1;
     suffixLink = -1;
     wordID = -1;
-    endWordLink= -1;
+    endWordLink = -1;
   }
 
   Map<Character, Integer> children;
@@ -35,7 +35,7 @@ class Aho {
   int root = 0;
 
   Aho() {
-    trie.add(new Vertex());           
+    trie.add(new Vertex());
     size++;
   }
 
@@ -46,7 +46,7 @@ class Aho {
 
       if (!trie.get(curVertex).children.containsKey(c)) {
         trie.add(new Vertex());
-        
+
         trie.get(size).suffixLink = -1;
         trie.get(size).parent = curVertex;
         trie.get(size).parentChar = c;
@@ -54,7 +54,7 @@ class Aho {
         size++;
       }
 
-      curVertex = (int)trie.get(curVertex).children.get(c);
+      curVertex = (int) trie.get(curVertex).children.get(c);
     }
 
     trie.get(curVertex).leaf = true;
@@ -71,46 +71,49 @@ class Aho {
       calcSuffLink(curVertex);
       Set<Character> keys = trie.get(curVertex).children.keySet();
 
-      for (char key: keys) {
+      for (char key : keys) {
         vertexQueue.add(trie.get(curVertex).children.get(key));
       }
     }
   }
 
-  private void calcSuffLink(int vertex)
-  {
-    if (vertex == root) { 
+  private void calcSuffLink(int vertex) {
+    if (vertex == root) {
       trie.get(vertex).suffixLink = root;
       trie.get(vertex).endWordLink = root;
       return;
     }
 
-    if (trie.get(vertex).parent == root) { 
+    if (trie.get(vertex).parent == root) {
       trie.get(vertex).suffixLink = root;
-      if (trie.get(vertex).leaf) trie.get(vertex).endWordLink = vertex;
-      else trie.get(vertex).endWordLink = trie.get(trie.get(vertex).suffixLink).endWordLink;
+      if (trie.get(vertex).leaf)
+        trie.get(vertex).endWordLink = vertex;
+      else
+        trie.get(vertex).endWordLink = trie.get(trie.get(vertex).suffixLink).endWordLink;
       return;
     }
 
     int curBetterVertex = trie.get(trie.get(vertex).parent).suffixLink;
-    char chVertex = trie.get(vertex).parentChar; 
+    char chVertex = trie.get(vertex).parentChar;
 
     while (true) {
       if (trie.get(curBetterVertex).children.containsKey(chVertex)) {
-        trie.get(vertex).suffixLink = (int)trie.get(curBetterVertex).children.get(chVertex);
-          break;
+        trie.get(vertex).suffixLink = (int) trie.get(curBetterVertex).children.get(chVertex);
+        break;
       }
 
-      if (curBetterVertex == root) { 
+      if (curBetterVertex == root) {
         trie.get(vertex).suffixLink = root;
-          break;
+        break;
       }
 
       curBetterVertex = trie.get(curBetterVertex).suffixLink;
     }
 
-    if (trie.get(vertex).leaf) trie.get(vertex).endWordLink = vertex; 
-    else trie.get(vertex).endWordLink = trie.get(trie.get(vertex).suffixLink).endWordLink;
+    if (trie.get(vertex).leaf)
+      trie.get(vertex).endWordLink = vertex;
+    else
+      trie.get(vertex).endWordLink = trie.get(trie.get(vertex).suffixLink).endWordLink;
   }
 
   Map<String, Integer> processString(String text, String[] wordList) {
@@ -120,11 +123,12 @@ class Aho {
     for (int j = 0; j < text.length(); j++) {
       while (true) {
         if (trie.get(currentState).children.containsKey(text.charAt(j))) {
-          currentState = (int)trie.get(currentState).children.get(text.charAt(j));
+          currentState = (int) trie.get(currentState).children.get(text.charAt(j));
           break;
         }
 
-        if (currentState == root) break;
+        if (currentState == root)
+          break;
         currentState = trie.get(currentState).suffixLink;
       }
 
@@ -133,7 +137,8 @@ class Aho {
       while (true) {
         checkState = trie.get(checkState).endWordLink;
 
-        if (checkState == root) break;
+        if (checkState == root)
+          break;
 
         if (!(result.containsKey(wordList[trie.get(checkState).wordID]))) {
           int indexOfMatch = j + 1 - wordsLength.get(trie.get(checkState).wordID);
@@ -151,20 +156,18 @@ class Aho {
 // Implement the Aho-Corasick Algorithm for this functionality
 public class WordFinder {
   /**
-   * Given a String (the haystack) and an array of Strings (the needles),
-   * return a Map<String, Integer>, where keys in the map correspond to
-   * elements of needles that were found as substrings of haystack, and the
-   * value for each key is the lowest index of haystack at which that needle
-   * was found. A needle that was not found in the haystack should not be
-   * returned in the output map.
+   * Given a String (the haystack) and an array of Strings (the needles), return a
+   * Map<String, Integer>, where keys in the map correspond to elements of needles
+   * that were found as substrings of haystack, and the value for each key is the
+   * lowest index of haystack at which that needle was found. A needle that was
+   * not found in the haystack should not be returned in the output map.
    * 
    * @param haystack The string to search into.
-   * @param needles The array of strings to search for. This array is not
-   *                mutated.
+   * @param needles  The array of strings to search for. This array is not
+   *                 mutated.
    * @return The list of needles that were found in the haystack.
    */
-  public static Map<String, Integer> getSubstrings(String haystack,
-                                                    String[] needles) {
+  public static Map<String, Integer> getSubstrings(String haystack, String[] needles) {
     Aho ahoAlg = new Aho();
 
     for (int i = 0; i < needles.length; i++) {
