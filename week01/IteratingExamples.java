@@ -17,7 +17,7 @@ public class IteratingExamples {
   public static int Act2ForEach(List<Integer> integers) {
     int sum = 0;
 
-    for (Integer i: integers) {
+    for (Integer i : integers) {
       sum += i;
     }
 

@@ -27,7 +27,7 @@ public class LinearEquation {
   public double getC() {
     return this.c;
   }
-  
+
   public double getD() {
     return this.d;
   }
