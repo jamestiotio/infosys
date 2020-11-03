@@ -189,8 +189,20 @@ public class PianoMachine {
     /**
      * Plays back each note stored in recordingSequence. If nothing is stored, nothing is played. A
      * playback cannot be executed if a recording is currently taking place. If the note is not the
-     * last in the sequence, put a rest time right after it. This method is considered to be atomic.
-     * Temporarily pauses all the current notes being played in the current instrument.
+     * first in the sequence, put a rest time right before it. This method is considered to be
+     * atomic. Temporarily pauses all the current notes being played in the current instrument.
+     * 
+     * Future work: add a "play along with a playback" feature by parsing this.recordingSequence
+     * into a list of instruments and spawn all of them, each populated with their own list of
+     * NoteEvents, such that the user is able to play along during playback. Also consider utilizing
+     * multithreading and redesigning the whole class. Need to also consider a possible conflict
+     * between a currently-being-played note on the current instrument and a toggle of that
+     * instrument during playback (i.e. does "multiple keypresses/beginNote() to play the same note
+     * on the same instrument before any endNote() is ever called" make sense?). Need to consider
+     * whether one PianoMachine can only have one of each instrument or multiple ones like a whole
+     * orchestra. The possibility of this extra test case is not specified anywhere (in both SUTD
+     * 50.001 and MIT 6.005), so it will not be considered in any official academic test suite. It's
+     * just a nifty and nice feature to have.
      */
     public void playback() {
         if (!this.isRecording && !this.recordingSequence.isEmpty()) {

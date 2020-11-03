@@ -140,6 +140,10 @@ public class Midi {
     /**
      * Wait for a duration in hundredths of a second.
      * 
+     * NOTE: This Thread.sleep() might lag quite a bit and returns a different output every now and
+     * then when log() is called. Might also be due to rounding issues in the log() method specified
+     * below.
+     * 
      * @requires duration >= 0
      */
     public static void rest(int duration) {
@@ -190,6 +194,9 @@ public class Midi {
     /**
      * Helper method which adds a new note-on or note-off entry to the trace returned by history().
      * The note entry is preceded by a rest(time) entry when appropriate.
+     * 
+     * NOTE: timeDif might experience some minor rounding issues every now and then since the value
+     * of getTime() fluctuates quite a bit.
      * 
      * @param note:     midi frequency of note event being logged
      * @param instr:    instrument of note event being logged
