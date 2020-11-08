@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,21 +27,12 @@ public class MainActivity extends AppCompatActivity {
 				R.drawable.snorlax, R.drawable.spearow, R.drawable.tomandjerry,
 				R.drawable.yoda));
 
-        charaButton = findViewById(R.id.charaButton);
         charaImage = findViewById(R.id.charaImage);
 
-        charaButton.setOnClickListener(v -> {
-            Random r = new Random();
-            int randomIndex = r.nextInt(images.size());
-            int id = images.get(randomIndex);
-            charaImage.setImageResource(id);
-        });
+        charaButton = findViewById(R.id.charaButton);
+        charaButton.setOnClickListener(new LoadRandomImageInSet(charaImage, images));
 
         firstCharaButton = findViewById(R.id.firstCharaButton);
-
-        firstCharaButton.setOnClickListener(v -> {
-            int id = images.get(0);
-            charaImage.setImageResource(id);
-        });
+        firstCharaButton.setOnClickListener(new LoadFirstImageInSet(charaImage, images));
     }
 }

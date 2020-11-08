@@ -32,7 +32,20 @@ public class PianoMachine {
         catch (MidiUnavailableException e1) {
             System.err.println("Could not initialize midi device");
             e1.printStackTrace();
-            return;
+        }
+    }
+
+    /**
+     * Adds a NoteEvent with the specified actualPitch and type to the recordingSequence.
+     * 
+     * @param actualPitch - the actual transposed final pitch to be added to the recordingSequence
+     * @param type - a NoteEvent.Kind object to specify the type of NoteEvent to be added to the recordingSequence (start / stop)
+     * @modifies this.recordingSequence
+     */
+    private void addNoteEventToRecordingSequence(Pitch actualPitch, NoteEvent.Kind type) {
+        if (this.isRecording) {
+            this.recordingSequence.addLast(new NoteEvent(actualPitch, System.currentTimeMillis(),
+                    this.currentInstrument, type));
         }
     }
 
@@ -41,6 +54,7 @@ public class PianoMachine {
      * start NoteEvent to the recordingSequence.
      * 
      * @param rawPitch - the note to be played
+     * @modifies this.currentlyPlayingNotes
      */
     public void beginNote(Pitch rawPitch) {
         Pitch actualPitch = rawPitch.transpose(this.semitoneShift);
@@ -50,10 +64,7 @@ public class PianoMachine {
             this.currentlyPlayingNotes.add(actualPitch);
         }
 
-        if (this.isRecording) {
-            this.recordingSequence.addLast(new NoteEvent(actualPitch, System.currentTimeMillis(),
-                    this.currentInstrument, NoteEvent.Kind.start));
-        }
+        this.addNoteEventToRecordingSequence(actualPitch, NoteEvent.Kind.start);
     }
 
     /**
@@ -61,6 +72,7 @@ public class PianoMachine {
      * stop NoteEvent to the recordingSequence.
      * 
      * @param rawPitch - the note to be stopped
+     * @modifies this.currentlyPlayingNotes
      */
     public void endNote(Pitch rawPitch) {
         Pitch actualPitch = rawPitch.transpose(this.semitoneShift);
@@ -70,9 +82,36 @@ public class PianoMachine {
             this.currentlyPlayingNotes.remove(actualPitch);
         }
 
-        if (this.isRecording) {
-            this.recordingSequence.addLast(new NoteEvent(actualPitch, System.currentTimeMillis(),
-                    this.currentInstrument, NoteEvent.Kind.stop));
+        this.addNoteEventToRecordingSequence(actualPitch, NoteEvent.Kind.stop);
+    }
+
+    /**
+     * Pauses all of the currently-playing notes stored and copied in the temp LinkedHashSet.
+     * 
+     * @param temp - the temporary LinkedHashSet containing all of the currently playing notes
+     */
+    private void pauseAllCurrentNotes(LinkedHashSet<Pitch> temp) {
+        if (!this.currentlyPlayingNotes.isEmpty()) {
+            Iterator<Pitch> endIter = temp.iterator();
+
+            while (endIter.hasNext()) {
+                this.endNote(endIter.next());
+            }
+        }
+    }
+
+    /**
+     * Restarts all of the currently-playing notes stored and copied in the temp LinkedHashSet.
+     * 
+     * @param temp - the temporary LinkedHashSet containing all of the currently playing notes
+     */
+    private void restartAllCurrentNotes(LinkedHashSet<Pitch> temp) {
+        if (!temp.isEmpty()) {
+            Iterator<Pitch> beginIter = temp.iterator();
+
+            while (beginIter.hasNext()) {
+                this.beginNote(beginIter.next());
+            }
         }
     }
 
@@ -87,23 +126,11 @@ public class PianoMachine {
     public void changeInstrument() {
         LinkedHashSet<Pitch> temp = new LinkedHashSet<>(this.currentlyPlayingNotes);
 
-        if (!this.currentlyPlayingNotes.isEmpty()) {
-            Iterator<Pitch> endIter = temp.iterator();
-
-            while (endIter.hasNext()) {
-                this.endNote(endIter.next());
-            }
-        }
+        this.pauseAllCurrentNotes(temp);
 
         this.currentInstrument = this.currentInstrument.next();
 
-        if (!temp.isEmpty()) {
-            Iterator<Pitch> beginIter = temp.iterator();
-
-            while (beginIter.hasNext()) {
-                this.beginNote(beginIter.next());
-            }
-        }
+        this.restartAllCurrentNotes(temp);
     }
 
     /**
@@ -117,23 +144,11 @@ public class PianoMachine {
         if (this.semitoneShift < 24) {
             LinkedHashSet<Pitch> temp = new LinkedHashSet<>(this.currentlyPlayingNotes);
 
-            if (!this.currentlyPlayingNotes.isEmpty()) {
-                Iterator<Pitch> endIter = temp.iterator();
-
-                while (endIter.hasNext()) {
-                    this.endNote(endIter.next());
-                }
-            }
+            this.pauseAllCurrentNotes(temp);
 
             this.semitoneShift += Pitch.OCTAVE;
 
-            if (!temp.isEmpty()) {
-                Iterator<Pitch> beginIter = temp.iterator();
-
-                while (beginIter.hasNext()) {
-                    this.beginNote(beginIter.next());
-                }
-            }
+            this.restartAllCurrentNotes(temp);
         }
     }
 
@@ -148,23 +163,11 @@ public class PianoMachine {
         if (this.semitoneShift > -24) {
             LinkedHashSet<Pitch> temp = new LinkedHashSet<>(this.currentlyPlayingNotes);
 
-            if (!this.currentlyPlayingNotes.isEmpty()) {
-                Iterator<Pitch> endIter = temp.iterator();
-
-                while (endIter.hasNext()) {
-                    this.endNote(endIter.next());
-                }
-            }
+            this.pauseAllCurrentNotes(temp);
 
             this.semitoneShift -= Pitch.OCTAVE;
 
-            if (!temp.isEmpty()) {
-                Iterator<Pitch> beginIter = temp.iterator();
-
-                while (beginIter.hasNext()) {
-                    this.beginNote(beginIter.next());
-                }
-            }
+            this.restartAllCurrentNotes(temp);
         }
     }
 
@@ -208,13 +211,7 @@ public class PianoMachine {
         if (!this.isRecording && !this.recordingSequence.isEmpty()) {
             LinkedHashSet<Pitch> temp = new LinkedHashSet<>(this.currentlyPlayingNotes);
 
-            if (!this.currentlyPlayingNotes.isEmpty()) {
-                Iterator<Pitch> endIter = temp.iterator();
-
-                while (endIter.hasNext()) {
-                    this.endNote(endIter.next());
-                }
-            }
+            this.pauseAllCurrentNotes(temp);
 
             long timestamp = 0;
             Iterator<NoteEvent> note = this.recordingSequence.iterator();
@@ -237,13 +234,7 @@ public class PianoMachine {
                 }
             }
 
-            if (!temp.isEmpty()) {
-                Iterator<Pitch> beginIter = temp.iterator();
-
-                while (beginIter.hasNext()) {
-                    this.beginNote(beginIter.next());
-                }
-            }
+            this.restartAllCurrentNotes(temp);
         }
     }
 
