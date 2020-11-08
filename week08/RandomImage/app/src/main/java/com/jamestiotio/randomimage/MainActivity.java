@@ -22,10 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         images = new ArrayList<>(Arrays.asList(R.drawable.ashketchum, R.drawable.bartsimpson,
                 R.drawable.bulbasaur, R.drawable.edogawaconan, R.drawable.default_pokemon,
-				R.drawable.eevee, R.drawable.gyrados, R.drawable.judyhopps,
-				R.drawable.nemo, R.drawable.nickwilde, R.drawable.pikachu, R.drawable.psyduck,
-				R.drawable.snorlax, R.drawable.spearow, R.drawable.tomandjerry,
-				R.drawable.yoda));
+                R.drawable.eevee, R.drawable.gyrados, R.drawable.judyhopps, R.drawable.nemo,
+                R.drawable.nickwilde, R.drawable.pikachu, R.drawable.psyduck, R.drawable.snorlax,
+                R.drawable.spearow, R.drawable.tomandjerry, R.drawable.yoda));
 
         charaImage = findViewById(R.id.charaImage);
 

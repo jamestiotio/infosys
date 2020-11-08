@@ -39,7 +39,8 @@ public class PianoMachine {
      * Adds a NoteEvent with the specified actualPitch and type to the recordingSequence.
      * 
      * @param actualPitch - the actual transposed final pitch to be added to the recordingSequence
-     * @param type - a NoteEvent.Kind object to specify the type of NoteEvent to be added to the recordingSequence (start / stop)
+     * @param type        - a NoteEvent.Kind object to specify the type of NoteEvent to be added to
+     *                    the recordingSequence (start / stop)
      * @modifies this.recordingSequence
      */
     private void addNoteEventToRecordingSequence(Pitch actualPitch, NoteEvent.Kind type) {
