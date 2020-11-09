@@ -1,3 +1,6 @@
+/**
+ * Possible feature extension would be to add a chord mode, which includes harmonzation and major/minor triads
+ */
 package piano;
 
 import javax.sound.midi.MidiUnavailableException;

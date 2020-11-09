@@ -20,6 +20,7 @@ public class PianoApplet extends Applet {
 
     private static final long serialVersionUID = -580070854133088915L;
 
+    @Override
     public void init() {
         setBackground(Color.green);
         final PianoMachine piano = new PianoMachine();
@@ -30,7 +31,16 @@ public class PianoApplet extends Applet {
         // anonymous subclass of KeyAdapter, whose keyPressed method is called
         // when a key is pressed in the GUI
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
+                // The following check prevents us from executing a KeyEvent that happened
+                // in the past within the specified threshold. This is to prevent us from
+                // executing a whole bunch of backed-up Events at once as a single chord
+                // when keys are pressed during a playback/recording.
+                long timeoutThreshold = 1000;
+                if (System.currentTimeMillis() - e.getWhen() > timeoutThreshold) {
+                    return;
+                }
                 System.out.println("key pressed");
                 char key = (char) e.getKeyCode();
                 switch (key) {
@@ -85,6 +95,7 @@ public class PianoApplet extends Applet {
         });
 
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent e) {
                 System.out.println("key released");
                 char key = (char) e.getKeyCode();
