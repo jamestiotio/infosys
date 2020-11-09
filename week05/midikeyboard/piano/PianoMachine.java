@@ -1,5 +1,9 @@
 /**
- * Possible feature extension would be to add a chord mode, which includes harmonzation and major/minor triads
+ * TODO: Possible feature extension would be to add a chord mode, which includes harmonization and
+ * major/minor triads. For this proposed feature, a Chord.java enum of chords (where each chord
+ * would be a list) would need to be defined. Whenever a Pitch is played using beginNote, the rest
+ * of the Pitches in a list starting with that Pitch should also be played. Define a chordModeActive
+ * attribute to track whether this mode is turned on or not.
  */
 package piano;
 
