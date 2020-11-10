@@ -4,15 +4,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class LoadRandomImageInSet implements View.OnClickListener {
-    private final Random rng;
+    private final SecureRandom rng;
     private final ImageView target;
     private final ArrayList<Integer> images;
 
     public LoadRandomImageInSet(ImageView target, ArrayList<Integer> images) {
-        this.rng = new Random();
+        this.rng = new SecureRandom();
         this.target = target;
         this.images = new ArrayList<>(images);
     }
