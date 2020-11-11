@@ -1,8 +1,10 @@
 /*
  * QUESTION 3 Part-B
  * 
- * In Vocareum: - Click BUILD to compile - RUN to execute the main function - SUBMIT to submit your
- * answer
+ * In Vocareum:
+ * - Click BUILD to compile
+ * - RUN to execute the main function
+ * - SUBMIT to submit your answer
  */
 
 public class RecurSum {
