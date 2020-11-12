@@ -13,7 +13,7 @@ class Subscriber implements Observer {
   public Subscriber(String observerId, Subject subject) {
     this.subject = subject;
     this.observerId = observerId;
-    this.subject.register(this); // register itself
+    this.subject.register(this); // register itself to the subject
   }
 
   @Override
