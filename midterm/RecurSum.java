@@ -28,23 +28,27 @@ public class RecurSum {
     // better time complexity
     // DP greatly reduces/decreases time complexity from exponential to pseudo-polynomial
     public static int computeNumOfIntegerPartitions(int n, int k) {
-        if (k == 0) {
+        if (n == k) {
+            return 1 + computeNumOfIntegerPartitions(n, k - 1); // computeNumOfIntegerPartitions(0,
+                                                                // k) == 1 always for k>=0
+        }
+
+        if ((k == 0) || (n < 0)) {
             return 0;
         }
 
-        if (n == 0) {
+        if ((n == 0) || (k == 1)) {
             return 1;
         }
 
-        if (n < 0) {
-            return 0;
+        if (RecurSum.table[n - 1][k - 1] == 0) {
+            RecurSum.table[n - 1][k - 1] = computeNumOfIntegerPartitions(n, k - 1)
+                    + computeNumOfIntegerPartitions(n - k, k); // (number of combinations whose
+                                                               // first element is less than k) +
+                                                               // (number of combinations whose
+                                                               // first element is equal to k)
         }
 
-        if (table[n - 1][k - 1] == 0) {
-            table[n - 1][k - 1] = computeNumOfIntegerPartitions(n, k - 1)
-                    + computeNumOfIntegerPartitions(n - k, k);
-        }
-
-        return table[n - 1][k - 1];
+        return RecurSum.table[n - 1][k - 1];
     }
 }
