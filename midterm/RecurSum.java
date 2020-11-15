@@ -30,7 +30,7 @@ public class RecurSum {
     public static int computeNumOfIntegerPartitions(int n, int k) {
         if (n == k) {
             return 1 + computeNumOfIntegerPartitions(n, k - 1); // computeNumOfIntegerPartitions(0,
-                                                                // k) == 1 always for k>=0
+                                                                // k) == 1 always for k >= 0
         }
 
         if ((k == 0) || (n < 0)) {
