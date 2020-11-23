@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-
     ArrayList<Integer> images;
     Button charaButton;
     ImageView charaImage;

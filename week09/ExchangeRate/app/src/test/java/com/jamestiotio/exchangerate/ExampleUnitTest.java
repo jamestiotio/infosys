@@ -2,6 +2,8 @@ package com.jamestiotio.exchangerate;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,4 +16,32 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void exchangeRateDefaultRate() {
+        String defaultExchangeRate = "2.95000";
+        assertEquals(new BigDecimal(defaultExchangeRate), new ExchangeRate().getExchangeRate());
+    }
+
+    @Test
+    public void exchangeRate_Infinity() {
+
+    }
+
+    @Test
+    public void exchangeRate_Empty() {
+
+    }
+
+    @Test
+    public void exchangeRate_Valid() {
+
+    }
+
+    @Test
+    public void exchangeRate_Nan() {
+
+    }
+
+    //TODO 5.4 Write tests for other constructors, calculateAmount() and empty string (NumberFormatException)
 }

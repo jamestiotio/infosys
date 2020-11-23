@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Comic Scraper</string>
+    <string name="button_get_comic_text">Get Comic</string>
+    <string name="error_no_network">No Network</string>
+    <string name="error_not_valid">Comic No Not Valid</string>
+    <string name="error_malformed_url">Malformed URL</string>
+    <string name="error_bad_json">Bad JSON Response</string>
+    <string name="error_https_error">HTTPS Error</string>
+</resources>

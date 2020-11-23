@@ -8,6 +8,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
 /**
@@ -22,5 +27,15 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.jamestiotio.exchangerate", appContext.getPackageName());
+    }
+
+    @Test
+    public void mainLayoutCorrect() {
+        onView(withId(R.id.editTextValue)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void exchangeRateZero() {
+        onView(withId(R.id.buttonSetExchangeRate)).perform(click());
     }
 }
