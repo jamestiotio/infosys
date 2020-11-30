@@ -159,7 +159,7 @@ public class Utils {
 
     /**
      * This method checks if an Activity has a network connection
-     * @param  context a Context object (Context is the superclass of AppCompatActivity
+     * @param  context a Context object (Context is the superclass of AppCompatActivity)
      * @return a boolean object
      */
     static boolean isNetworkAvailable(Context context) {
