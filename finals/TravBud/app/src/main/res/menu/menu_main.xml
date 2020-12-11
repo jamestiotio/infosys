@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.jamestiotio.travbud.MainActivity">
+    <item
+        android:id="@+id/action_exchange"
+        android:orderInCategory="10"
+        android:title="Exchange" />
+        />
+    <item
+        android:id="@+id/action_expenditure"
+        android:orderInCategory="50"
+        android:title="Expenditure" />
+    />
+</menu>
