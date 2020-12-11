@@ -71,6 +71,7 @@ public class Utils {
      * @param drawablesId arrayList containing drawables ID
      * @return DataSource object
      */
+    // Context is the super-super class of MainActivity
     static DataSource firstLoadImages(Context context, ArrayList<Integer> drawablesId){
         DataSource dataSource = new DataSource();
 

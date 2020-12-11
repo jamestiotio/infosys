@@ -3,18 +3,22 @@ package com.jamestiotio.sutdpokedex;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -37,18 +41,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO 11.1 Get references to the widgets
+        recyclerView = findViewById(R.id.charaRecyclerView);
+        imageViewAdded = findViewById(R.id.imageViewAdded);
 
-        //TODO 12.7 Load the Json string from shared Preferences
-        //TODO 12.8 Initialize your dataSource object with the Json string
+        mPreferences = getSharedPreferences(PREF_FILE, MODE_PRIVATE);
+        String json = mPreferences.getString(KEY_DATA, "");
+        if (!json.isEmpty()) {
+            Gson gson = new Gson();
+            dataSource = gson.fromJson(json, DataSource.class);
+        }
+        else {
+            ArrayList<Integer> drawableId = new ArrayList<>();
+            drawableId.add(R.drawable.bulbasaur);
+            drawableId.add(R.drawable.eevee);
+            drawableId.add(R.drawable.gyrados);
+            drawableId.add(R.drawable.pikachu);
+            drawableId.add(R.drawable.psyduck);
+            drawableId.add(R.drawable.snorlax);
+            drawableId.add(R.drawable.spearow);
+            drawableId.add(R.drawable.squirtle);
 
-        //TODO 11.2 Create your dataSource object by calling Utils.firstLoadImages
-        //TODO 11.3 --> Go to CharaAdapter
-        //TODO 11.8 Complete the necessary code to initialize your RecyclerView
+            dataSource = Utils.firstLoadImages(this,
+                    drawableId);
+        }
+
+        Log.i("Pikachu", dataSource.getName(3));
+        Log.i("Pikachu", dataSource.getPath(3));
+
+        charaAdapter = new CharaAdapter( this, dataSource);
+        recyclerView.setAdapter(charaAdapter);
+        /** Explore using new GridLayoutManager */
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this));
 
         //TODO 12.9 [OPTIONAL] Add code to delete a RecyclerView item upon swiping. See notes for the code.
-
-        //TODO 12.1 Set up an Explicit Intent to DataEntry Activity with startActivityForResult (no coding)
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +86,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO 12.6 Complete onPause to store the DataSource object in SharedPreferences as a JSON string
     @Override
     protected void onPause(){
         super.onPause();
+        SharedPreferences.Editor prefsEditor = mPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(dataSource);
+        prefsEditor.putString(KEY_DATA,json);
+        prefsEditor.apply();
     }
 
     /*
@@ -90,12 +120,19 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    //TODO 12.5 Write onActivityResult to get the data passed back from DataEntry and add to DataSource object
+    // MainActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if( requestCode == REQUEST_CODE_IMAGE && resultCode == Activity.RESULT_OK){
+            String name = data.getStringExtra( DataEntry.KEY_NAME);
+            String path = data.getStringExtra( DataEntry.KEY_PATH);
+            dataSource.addData(name, path);
+            charaAdapter.notifyDataSetChanged();
+
+            Bitmap bitmap = dataSource.getImage( dataSource.getSize() - 1);
+            imageViewAdded.setImageBitmap(bitmap);
         }
     }
 }

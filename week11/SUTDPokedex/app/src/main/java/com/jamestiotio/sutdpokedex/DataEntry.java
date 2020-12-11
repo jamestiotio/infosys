@@ -1,14 +1,20 @@
 package com.jamestiotio.sutdpokedex;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class DataEntry extends AppCompatActivity {
     EditText editTextNameEntry;
@@ -30,7 +36,6 @@ public class DataEntry extends AppCompatActivity {
         imageViewSelected = findViewById(R.id.imageViewSelected);
         buttonOK = findViewById(R.id.buttonOK);
 
-        //TODO 12.2 Set up an implicit intent to the image gallery (standard code)
         buttonSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,23 +49,40 @@ public class DataEntry extends AppCompatActivity {
             }
         });
 
-        //TODO 12.4 When the OK button is clicked, set up an intent to go back to MainActivity
         buttonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int resultCode = Activity.RESULT_OK;
+                Intent resultIntent = new Intent();
+                String name = editTextNameEntry.getText().toString();
+                String path = Utils.saveToInternalStorage(bitmap, name,
+                        DataEntry.this);
+                resultIntent.putExtra(KEY_NAME, name);
+                resultIntent.putExtra(KEY_PATH, path);
+                setResult(resultCode,resultIntent);
+                finish();
             }
         });
-
-        //TODO 12.5 --> Go back to MainActivity
-
     }
 
-    //TODO 12.3 Write onActivityResult to get the image selected
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
+            //the image selected is passed as a Uri
+            Uri fullPhotoUri = data.getData();
+            //display the image selected
+            imageViewSelected.setImageURI(fullPhotoUri);
 
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(),
+                        fullPhotoUri);
+            }
+            catch (FileNotFoundException ex) {
+                //write a Toast
+            }
+            catch (IOException ex) {
+                //write a Toast
+            }
         }
     }
 }
