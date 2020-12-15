@@ -12,18 +12,18 @@ public class DataSource {
         dataArrayList = new ArrayList<>();
     }
 
-    void addData(String name, String path){
+    void addData(String name, String path) {
         CardData c = new CardData(name, path);
         dataArrayList.add(c);
     }
 
-    void addData(String name, Bitmap bitmapImage, Context context){
+    void addData(String name, Bitmap bitmapImage, Context context) {
         String path = Utils.saveToInternalStorage(bitmapImage, name, context);
         CardData c = new CardData(name, path);
         dataArrayList.add(c);
     }
 
-    void removeDataData(int position){
+    void removeData(int position){
         dataArrayList.remove(position);
     }
 
@@ -35,7 +35,7 @@ public class DataSource {
         return dataArrayList.get(i).getPath();
     }
 
-    Bitmap getImage(int i){
+    Bitmap getImage(int i) {
         String name = dataArrayList.get(i).getName();
         String path = dataArrayList.get(i).getPath();
         return Utils.loadImageFromStorage(path, name);
@@ -45,11 +45,11 @@ public class DataSource {
         return dataArrayList.size();
     }
 
-    private static class CardData{
+    private static class CardData {
         private String name;
         private String path;
 
-        private CardData( String name, String path){
+        private CardData(String name, String path) {
             this.name = name;
             this.path = path;
         }
@@ -58,7 +58,7 @@ public class DataSource {
             return name;
         }
 
-        private String getPath(){
+        private String getPath() {
             return path;
         }
     }

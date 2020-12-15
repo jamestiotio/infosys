@@ -1,9 +1,11 @@
 package com.jamestiotio.sutdpokedex;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -70,11 +73,30 @@ public class MainActivity extends AppCompatActivity {
 
         charaAdapter = new CharaAdapter( this, dataSource);
         recyclerView.setAdapter(charaAdapter);
-        /** Explore using new GridLayoutManager */
         recyclerView.setLayoutManager(
-                new LinearLayoutManager(this));
+                new GridLayoutManager(this, 3));
 
-        //TODO 12.9 [OPTIONAL] Add code to delete a RecyclerView item upon swiping. See notes for the code.
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                CharaAdapter.CharaViewHolder charaViewHolder = (CharaAdapter.CharaViewHolder) viewHolder;
+                int position = charaViewHolder.getAdapterPosition();
+                dataSource.removeData(position);
+                Toast.makeText(MainActivity.this, "Deleting " + dataSource.getName(position), Toast.LENGTH_LONG).show();
+                charaAdapter.notifyItemRemoved(position);
+                //this line below gives you the animation and also updates the
+                //list items after the deleted item
+                charaAdapter.notifyItemRangeChanged(position, charaAdapter.getItemCount());
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

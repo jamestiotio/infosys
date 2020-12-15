@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -74,14 +75,14 @@ public class DataEntry extends AppCompatActivity {
             imageViewSelected.setImageURI(fullPhotoUri);
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(),
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
                         fullPhotoUri);
             }
             catch (FileNotFoundException ex) {
-                //write a Toast
+                Toast.makeText(DataEntry.this, "FileNotFoundException has been raised!", Toast.LENGTH_LONG).show();
             }
             catch (IOException ex) {
-                //write a Toast
+                Toast.makeText(DataEntry.this, "IOException has been raised!", Toast.LENGTH_LONG).show();
             }
         }
     }

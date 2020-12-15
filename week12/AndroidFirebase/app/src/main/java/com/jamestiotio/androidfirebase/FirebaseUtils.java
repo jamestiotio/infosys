@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
@@ -65,6 +66,29 @@ public class FirebaseUtils {
             }
         });
 
+    }
+
+    public static Task<ListResult> listAll(final Context context, StorageReference storageRef) {
+        return storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                /*
+                for (StorageReference prefix : listResult.getPrefixes()) {
+                    // All the prefixes under listRef.
+                    // You may call listAll() recursively on them.
+                }
+                */
+                for (StorageReference item : listResult.getItems()) {
+                    // All the items under listRef.
+
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Uh-oh, an error occurred!
+            }
+        });
     }
 
     public static String getFileName(Context context, Uri uri) {
