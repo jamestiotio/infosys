@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         /** executing mNodeRefSatisfied.push() creates child nodes with random ID
          *  mNoteRefTally.child("data") creates a child node if it didn't exist
-         *  mNoteRefTally.child("data").setValue( ) assigns a value to the node
+         *  mNoteRefTally.child("data").setValue() assigns a value to the node
          *  explore what happens if you did this subsequently:
          *  mNoteRefTally.child("data").child("data1").setValue() */
         imageViewSatisfied.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 mNodeRefSatisfied.push().setValue(timestamp.toString());
-                mNodeRefTally.child(NO_SATISFIED).setValue(satisfiedTallyValue+1);
+                mNodeRefTally.child(NO_SATISFIED).setValue(satisfiedTallyValue + 1);
                 Toast.makeText(MainActivity.this, "Thank you", Toast.LENGTH_SHORT).show();
             }
         });
@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String filename = FirebaseUtils.getFileName(MainActivity.this, fullPhotoUri);
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                System.out.println(filename);
                 StorageReference imageRef = storageRef.child("/backgrounds/" + filename);
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fullPhotoUri);
                 FirebaseUtils.uploadImageToStorage(MainActivity.this, imageRef, bitmap);

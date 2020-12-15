@@ -26,7 +26,7 @@ public class ExchangeRate {
         BigDecimal homeValue = new BigDecimal(home);
         homeValue = homeValue.setScale(2, RoundingMode.HALF_UP);
         BigDecimal foreignValue = new BigDecimal(foreign);
-        exchangeRate = homeValue.divide(foreignValue, mathContext);
+        exchangeRate = foreignValue.divide(homeValue, mathContext);
     }
 
     BigDecimal getExchangeRate() {

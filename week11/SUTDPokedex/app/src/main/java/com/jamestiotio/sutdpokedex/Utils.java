@@ -23,12 +23,12 @@ public class Utils {
      * @param context
      * @return
      */
-    static String saveToInternalStorage(Bitmap bitmapImage, String name, Context context){
+    static String saveToInternalStorage(Bitmap bitmapImage, String name, Context context) {
         ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
         // Path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,name);
+        File mypath = new File(directory, name);
 
         FileOutputStream fos = null;
         try {

@@ -68,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
                     drawableId);
         }
 
-        Log.i("Pikachu", dataSource.getName(3));
-        Log.i("Pikachu", dataSource.getPath(3));
-
         charaAdapter = new CharaAdapter( this, dataSource);
         recyclerView.setAdapter(charaAdapter);
         recyclerView.setLayoutManager(
@@ -86,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 CharaAdapter.CharaViewHolder charaViewHolder = (CharaAdapter.CharaViewHolder) viewHolder;
                 int position = charaViewHolder.getAdapterPosition();
-                dataSource.removeData(position);
                 Toast.makeText(MainActivity.this, "Deleting " + dataSource.getName(position), Toast.LENGTH_LONG).show();
+                dataSource.removeData(position);
                 charaAdapter.notifyItemRemoved(position);
                 //this line below gives you the animation and also updates the
                 //list items after the deleted item
