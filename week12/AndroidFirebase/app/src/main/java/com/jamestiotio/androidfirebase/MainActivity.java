@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String filename = FirebaseUtils.getFileName(MainActivity.this, fullPhotoUri);
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                System.out.println(filename);
                 StorageReference imageRef = storageRef.child("/backgrounds/" + filename);
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fullPhotoUri);
                 FirebaseUtils.uploadImageToStorage(MainActivity.this, imageRef, bitmap);
