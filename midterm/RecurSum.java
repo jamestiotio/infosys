@@ -28,17 +28,24 @@ public class RecurSum {
     // better time complexity
     // DP greatly reduces/decreases time complexity from exponential to pseudo-polynomial
     public static int computeNumOfIntegerPartitions(int n, int k) {
-        if (n == k) {
-            return 1 + computeNumOfIntegerPartitions(n, k - 1); // computeNumOfIntegerPartitions(0,
-                                                                // k) == 1 always for k >= 0
-        }
-
+        // Define base cases
         if ((k == 0) || (n < 0)) {
             return 0;
         }
 
-        if ((n == 0) || (k == 1)) {
+        if (n == 0) {
             return 1;
+        }
+
+        if (k == 1) {
+            RecurSum.table[n - 1][k - 1] = 1;
+            return RecurSum.table[n - 1][k - 1];
+        }
+
+        // Define recursive cases
+        if (n == k) {
+            RecurSum.table[n - 1][k - 1] = 1 + computeNumOfIntegerPartitions(n, k - 1); // computeNumOfIntegerPartitions(0, k) == 1 always for k >= 0
+            return RecurSum.table[n - 1][k - 1];
         }
 
         if (RecurSum.table[n - 1][k - 1] == 0) {
