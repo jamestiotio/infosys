@@ -8,7 +8,7 @@
  */
 
 public class RecurSum {
-    private static int[][] table;
+    private static int[][] table; // Use this table data structure (2D array) for memoization
 
     public static void main(String[] args) {
         int n, k;
