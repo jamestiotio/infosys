@@ -10,6 +10,7 @@
     <EditText
         android:id="@+id/editTextSubValueA"
         android:hint="Enter units of A"
+        android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -22,6 +23,7 @@
     <EditText
         android:id="@+id/editTextSubValueB"
         android:hint="Enter units of B"
+        android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

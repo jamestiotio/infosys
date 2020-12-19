@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewExchangeRate;
     public final String TAG = "Logcat";
     private SharedPreferences mPreferences;
-    private String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private String sharedPrefFile = "com.jamestiotio.exchangerate.mainsharedprefs";
     public static final String RATE_KEY = "Rate_Key";
     ExchangeRate exchangeRateCalculation;
     String exchangeRateStored;

@@ -13,20 +13,28 @@ public class SubActivity extends AppCompatActivity {
     EditText editTextSubValueOfB;  // B: Foreign
     public final static String INTENT_EXCH_RATE = "Exchange Rate";
     private SharedPreferences mPreferences;
-    private String sharedPrefFile = "com.example.android.subsharedprefs";
+    private String sharedPrefFile = "com.jamestiotio.exchangerate.subsharedprefs";
     public final static String A_KEY = "A_KEY";  // A: Home
     public final static String B_KEY = "B_KEY";  // B: Foreign
+    private String homeTextStored;
+    private String foreignTextStored;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        //TODO 4.9 Implement saving to shared preferences for the contents of the EditText widget
+        this.mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        this.homeTextStored = mPreferences.getString(A_KEY, "");
+        this.foreignTextStored = mPreferences.getString(B_KEY, "");
 
         editTextSubValueOfA = findViewById(R.id.editTextSubValueA);
         editTextSubValueOfB = findViewById(R.id.editTextSubValueB);
         buttonBackToCalculator = findViewById(R.id.buttonBackToCalculator);
+
+        editTextSubValueOfA.setText(this.homeTextStored);
+        editTextSubValueOfB.setText(this.foreignTextStored);
+
         buttonBackToCalculator.setOnClickListener(new SetExchangeRateCalculator(SubActivity.this,
                 MainActivity.class,
                 editTextSubValueOfA,
@@ -35,11 +43,14 @@ public class SubActivity extends AppCompatActivity {
                 B_KEY));
     }
 
-    //TODO 4.10 Don't forget to override onPause()
-
     @Override
     protected void onPause() {
         super.onPause();
+
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(A_KEY, this.homeTextStored);
+        editor.putString(B_KEY, this.foreignTextStored);
+        editor.apply();
     }
 
 }
