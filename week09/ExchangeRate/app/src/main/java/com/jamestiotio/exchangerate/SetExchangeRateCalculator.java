@@ -2,6 +2,7 @@ package com.jamestiotio.exchangerate;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,19 +14,22 @@ public class SetExchangeRateCalculator implements View.OnClickListener {
     private final EditText foreign;
     private final String HOME_KEY; // A: Home
     private final String FOREIGN_KEY; // B: Foreign
+    private SharedPreferences mPreferences;
 
     public SetExchangeRateCalculator(Activity currentActivity,
                                      Class<MainActivity> targetActivity,
                                      EditText home,
                                      EditText foreign,
                                      String HOME_KEY,
-                                     String FOREIGN_KEY) {
+                                     String FOREIGN_KEY,
+                                     SharedPreferences mPreferences) {
         this.home = home;
         this.foreign = foreign;
         this.currentActivity = currentActivity;
         this.targetActivity = targetActivity;
         this.HOME_KEY = HOME_KEY;
         this.FOREIGN_KEY = FOREIGN_KEY;
+        this.mPreferences = mPreferences;
     }
 
     @Override
@@ -36,6 +40,11 @@ public class SetExchangeRateCalculator implements View.OnClickListener {
             Utils.checkInvalidInputs(homeValue);
             Utils.checkInvalidInputs(foreignValue);
             Utils.checkEqualsZero(foreignValue);
+
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putString(this.HOME_KEY, homeValue);
+            editor.putString(this.FOREIGN_KEY, foreignValue);
+            editor.apply();
 
             Intent intent = new Intent(this.currentActivity, this.targetActivity);
             intent.putExtra(this.HOME_KEY, homeValue);

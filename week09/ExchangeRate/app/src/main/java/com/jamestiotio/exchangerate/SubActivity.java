@@ -40,7 +40,8 @@ public class SubActivity extends AppCompatActivity {
                 editTextSubValueOfA,
                 editTextSubValueOfB,
                 A_KEY,
-                B_KEY));
+                B_KEY,
+                mPreferences));
     }
 
     @Override
@@ -48,8 +49,8 @@ public class SubActivity extends AppCompatActivity {
         super.onPause();
 
         SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putString(A_KEY, this.homeTextStored);
-        editor.putString(B_KEY, this.foreignTextStored);
+        editor.putString(A_KEY, editTextSubValueOfA.getText().toString());
+        editor.putString(B_KEY, editTextSubValueOfB.getText().toString());
         editor.apply();
     }
 
