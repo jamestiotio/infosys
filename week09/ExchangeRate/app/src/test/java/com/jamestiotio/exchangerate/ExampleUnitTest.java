@@ -26,13 +26,13 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void exchangeRateOneArg(){
+    public void exchangeRateOneArg() {
         String exchangeRate = "0.12345";
         assertEquals(exchangeRate, new ExchangeRate(exchangeRate).getExchangeRate().toString());
     }
 
     @Test
-    public void exchangeRateTwoArg(){
+    public void exchangeRateTwoArg() {
         String home = "1.0";
         String foreign = "3.0";
         String result = "0.33333";
@@ -41,7 +41,7 @@ public class ExampleUnitTest {
 
     // getExchangeRate() shall return a BigDecimal object
     @Test
-    public void exchangeRateTwoArgBigDecimal(){
+    public void exchangeRateTwoArgBigDecimal() {
         String home = "1.0";
         String foreign = "3.0";
         String result = "0.33333";
@@ -51,11 +51,11 @@ public class ExampleUnitTest {
 
     // calculateAmount() shall return a BigDecimal object
     @Test
-    public void calculateAmountBigDecimal(){
+    public void calculateAmountBigDecimal() {
         String home = "1.0";
         String foreign = "3.0";
         String amount = "100";
-        String result = "33.333";
+        String result = "33.33300";
 
         assertEquals(new BigDecimal(result), new ExchangeRate(home, foreign)
                 .calculateAmount(amount));
@@ -65,7 +65,7 @@ public class ExampleUnitTest {
     // For infinite inputs, divide them in logical ways
     // For example: positive vs. negative
     @Test
-    public void calculateAmountBigDecimalNegative(){
+    public void calculateAmountBigDecimalNegative() {
         String home = "1.0";
         String foreign = "3.0";
         String amount = "-100"; // Negative
@@ -78,14 +78,14 @@ public class ExampleUnitTest {
     // An empty string passed to the one-arg constructor of
     // ExchangeRate shall throw a NumberFormatException
     @Test(expected = NumberFormatException.class)
-    public void exchangeRateOneArgThrowException(){
+    public void exchangeRateOneArgThrowException() {
         new ExchangeRate("");
     }
 
     // A string "abcde" passed to the two-args constructor
     // shall throw a NumberFormatException
     @Test(expected = NumberFormatException.class)
-    public void exchangeRateTwoArgThrowException(){
+    public void exchangeRateTwoArgThrowException() {
         new ExchangeRate("100","abcde");
     }
 
